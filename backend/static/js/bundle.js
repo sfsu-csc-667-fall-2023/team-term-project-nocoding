@@ -1,1 +1,4 @@
-(()=>{"use strict";console.log("Hi"),console.log("Logging Hello from other ")})();
+(() => {
+  "use strict";
+  console.log("Hi"), console.log("Hi Hello from within other ");
+})();
