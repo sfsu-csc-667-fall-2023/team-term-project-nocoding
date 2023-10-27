@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-
-
-
-router.get("/", (_request, response) => {
-    response.send("Whats up Team NoCoding");
-
+router.get("/:name", (request, response) => {
+    const { name } = request.params; // Use request.params, not response.params
+    response.render('root', { name });
 });
 
 module.exports = router;

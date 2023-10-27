@@ -1,12 +1,20 @@
+const path = require('path');
 const express = require('express');
-const createError = require("http-errors");
+const createError = require('http-errors');
+
 
 const rootRoutes = require("./routes/root");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use("/", rootRoutes);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(express.static(path.join(__dirname, "static")));
+
+
+app.use('/', rootRoutes);
 
 
 app.use((request, response, next) => {
