@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (request, response) => {
-  response.render("index.ejs");
-});
+
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -18,7 +16,9 @@ db.connect((err) => {
   console.log('MySQL Connected.');
 });
 
-
+router.get("/", (request, response) => {
+  response.render("index.ejs");
+});
 
 router.get("/:name", (request, response) => {
   const { name } = request.params; // Use request.params, not response.params
