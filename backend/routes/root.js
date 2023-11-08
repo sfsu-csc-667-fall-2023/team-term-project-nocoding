@@ -3,10 +3,11 @@ const router = express.Router();
 
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '1234',
-  database: 'GameDB'
+  host: '127.0.0.1',
+  user: 'postgres',
+  password: 'passwordgoeshere',
+  database: 'GameDB',
+  port: '5432'
 });
 
 db.connect((err) => {

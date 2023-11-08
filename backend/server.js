@@ -5,10 +5,12 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
 const rootRoutes = require("./routes/root");
+const testRoutes = require("./routes/test/index.js");
+require('dotenv').config();
 
 const app = express();
 app.use(morgan("dev"));
-
+app.use("/test", testRoutes);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
