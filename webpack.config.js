@@ -1,10 +1,9 @@
-const path = require('path');
-
+const path = require("path");
 module.exports = {
     entry: "./frontend/index.js",
     output: {
         path: path.join(__dirname, "backend", "static", "js"),
-        publicPath: "/backend/static/js",
+        publicPath: "/backend/static/scripts",
         filename: "bundle.js",
     },
     mode: "production",
@@ -17,4 +16,4 @@ module.exports = {
             },
         ],
     },
-};
+}; 

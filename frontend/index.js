@@ -1,6 +1,5 @@
-// const doAThing = require("./temp/other");
+// this is equivalent to const {doAThing} = require("./temp/other");
 import { doAThing } from "./temp/other";
-
 
 console.log("Hi");
 

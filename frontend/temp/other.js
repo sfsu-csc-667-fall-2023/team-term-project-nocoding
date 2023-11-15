@@ -1,7 +1,6 @@
 const doAThing = (param) => {
-    console.log(`${true ? "Hi" : 'hello'} ${param} from within other `)
+    console.log(`${true ? "Hi" : 'hello'} ${param} from within other...`)
+
 }
-
-
-// module.exports = { doAThing }
+// this is equivalent to module.exports = { doAThing }
 export { doAThing }

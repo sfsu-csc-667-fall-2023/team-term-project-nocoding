@@ -1,5 +1,5 @@
 {
-  "name": "csc-667-term-project",
+  "name": "chess-game",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,12 +7,12 @@
     "start": "node ./backend/server.js",
     "build": "webpack",
     "build:dev": "webpack --watch",
-    "server:dev": "set NODE_ENV=development && nodemon  ./backend/server.js",
+    "server:dev": "set NODE_ENV=development && nodemon ./backend/server.js",
     "start:dev": "concurrently \"npm:server:dev\" \"npm:build:dev\"",
-    "prepare": "husky install",
-    "db:create": "node-pg-migrate create -- ",
+    "db:create": "node-pg-migrate create -( ",
     "db:migrate": "node-pg-migrate up",
-    "db:rollback": "node-pg-migrate down"
+    "db:rollback": "node-pg-migrate down",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
@@ -26,7 +26,7 @@
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "http-error": "^0.0.6",
+    "http-errors": "^2.0.0",
     "morgan": "^1.10.0",
     "node-pg-migrate": "^6.2.2",
     "pg": "^8.11.3",
@@ -37,9 +37,10 @@
     "concurrently": "^8.2.2",
     "connect-livereload": "^0.6.1",
     "husky": "^8.0.3",
-    "lint-staged": "^15.0.2",
+    "lint-staged": "^15.1.0",
     "livereload": "^0.9.3",
     "nodemon": "^3.0.1",
+    "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   }
 }
