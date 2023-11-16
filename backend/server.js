@@ -2,7 +2,7 @@ require("dotenv").config();
 const path = require("path");
 const express = require("express");
 const createError = require("http-errors");
-const morgan = require('morgan');
+const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
 const app = express();
@@ -16,17 +16,17 @@ app.use(express.static(path.join(__dirname, "static")));
 
 const PORT = process.env.PORT | 3000;
 
-if (process.env.NODE_ENV = "development") {
-    const livereload = require("livereload");
-    const connectLiveReload = require("connect-livereload");
-    const liveReloadServer = livereload.createServer();
-    liveReloadServer.watch(path.join(__dirname, "backend", "static"));
-    liveReloadServer.server.once("connection", () => {
-        setTimeout(() => {
-            liveReloadServer.refresh("/");
-        }, 100);
-    });
-    app.use(connectLiveReload());
+if (process.env.NODE_ENV === "development") {
+  const livereload = require("livereload");
+  const connectLiveReload = require("connect-livereload");
+  const liveReloadServer = livereload.createServer();
+  liveReloadServer.watch(path.join(__dirname, "backend", "static"));
+  liveReloadServer.server.once("connection", () => {
+    setTimeout(() => {
+      liveReloadServer.refresh("/");
+    }, 100);
+  });
+  app.use(connectLiveReload());
 }
 
 const landingRoutes = require("./routes/landing");
@@ -40,10 +40,9 @@ app.use("/lobby", globalLobbyRoutes);
 app.use("/games", gameRoutes);
 
 app.use((_request, _response, next) => {
-    next(createError(404));
+  next(createError(404));
 });
 
 app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
-
