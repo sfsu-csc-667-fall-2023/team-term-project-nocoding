@@ -4,16 +4,15 @@ const express = require("express");
 const createError = require("http-errors");
 const morgan = require('morgan');
 const cookieParser = require("cookie-parser");
-const testRoutes = require("./routes/test/index");
 
 const app = express();
-
-app.use("/test", testRoutes);
 app.use(morgan("dev"));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "static")));
 
 const PORT = process.env.PORT | 3000;
 
@@ -30,17 +29,15 @@ if (process.env.NODE_ENV = "development") {
     app.use(connectLiveReload());
 }
 
+const landingRoutes = require("./routes/landing");
+const authRoutes = require("./routes/authentication");
+const globalLobbyRoutes = require("./routes/global_lobby");
+const gameRoutes = require("./routes/game");
 
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-
-
-app.use(express.static(path.join(__dirname, "static")));
-
-
-const rootRoutes = require("./routes/root");
-
-app.use("/", rootRoutes);
+app.use("/", landingRoutes);
+app.use("/auth", authRoutes);
+app.use("/lobby", globalLobbyRoutes);
+app.use("/games", gameRoutes);
 
 app.use((_request, _response, next) => {
     next(createError(404));
