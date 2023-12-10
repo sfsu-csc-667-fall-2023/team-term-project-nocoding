@@ -1,19 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chess</title>
-    </head>
-    <body>
-        Landing page
 
-        <ul>
-            <li><a href="/">Landing</a></li>
-            <li><a href="/auth/sign_up">Sign up</a></li>
-            <li><a href="/lobby">Lobby</a></li>
-            <li><a href="/games/42">Game 42</a></li>
-        </ul>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="icon" href="backend\favicon.ico" type="image/x-icon" />
+    <title>Chess</title>
+</head>
+
+<body>
+
+    <h1>Chess</h1>
+    <div class="bgnd">
+        <nav class="nav">
+            <input id="menu" type="checkbox">
+            <label for="menu">Menu</label>
+            <ul class="menu">
+                <li>
+                    <a href="/">
+                        <span>Landing</span>
+                        <i class="fas fa-address-card" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/auth">
+                        <span>Sign Up</span>
+                        <i class="fas fa-tasks" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lobby">
+                        <span>Lobby</span>
+                        <i class="fas fa-users" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/games">
+                        <span>Play</span>
+                        <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="form-center">
+        <main>
+            <form method="post" action="/auth/sign_in">
+                <label class="label" for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Email">
+                </label>
+                <label class="label" for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Password">
+                </label>
+                <button type="submit">Login</button>
+            </form>
+        </main>
+    </div>
+
+</body>
 
 </html>

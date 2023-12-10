@@ -1,17 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sign Up</title>
-    </head>
-    <body>
-        Sign Up
 
-        <form action="/auth/sign_up" method="post">
-            <input type="text" name="" id="" />
-            <input type="password" name="" id="" />
-            <input type="submit" value="" />
-        </form>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="icon" href="backend\favicon.ico" type="image/x-icon" />
+    <title>Sign Up</title>
+</head>
+
+<body>
+    <h2>SIGN UP</h2>
+    <div class="bgnd">
+        <nav class="nav">
+            <input id="menu" type="checkbox">
+            <label for="menu">Menu</label>
+            <ul class="menu">
+                <li>
+                    <a href="/">
+                        <span>Landing</span>
+                        <i class="fas fa-address-card" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/auth">
+                        <span>Sign Up</span>
+                        <i class="fas fa-tasks" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/lobby">
+                        <span>Lobby</span>
+                        <i class="fas fa-users" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/games">
+                        <span>Play</span>
+                        <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="form-center">
+        <main>
+            <form method="post" action="/auth/sign_up">
+                <label class="label" for="email">Email</label>
+                <input type="email" name="email" id="" />
+                <label class="label" for="password">Password</label>
+                <input type="password" name="password" id="" />
+                <input type="submit" value="Submit" />
+            </form>
+        </main>
+    </div>
+
+</body>
+
 </html>

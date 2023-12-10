@@ -5,16 +5,18 @@ const createError = require("http-errors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
+
 const app = express();
 app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json());  // Use built-in middleware
+app.use(express.urlencoded({ extended: true }));  // Use built-in middleware
+
 app.use(cookieParser());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "static")));
 
-const PORT = process.env.PORT | 3000;
+const PORT = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV === "development") {
   const livereload = require("livereload");
