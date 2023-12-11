@@ -4,6 +4,8 @@ const express = require("express");
 const createError = require("http-errors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const { viewSessionData } = require("./middleware/view-session");
 
 
 const app = express();
@@ -16,10 +18,15 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "static")));
 
+
+
 const PORT = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV === "development") {
+
+
   const livereload = require("livereload");
+
   const connectLiveReload = require("connect-livereload");
   const liveReloadServer = livereload.createServer();
   liveReloadServer.watch(path.join(__dirname, "backend", "static"));
@@ -29,6 +36,16 @@ if (process.env.NODE_ENV === "development") {
     }, 100);
   });
   app.use(connectLiveReload());
+}
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: process.env.NODE_ENV != "development" },
+}))
+if(process.env.NODE_ENV === "development") {
+  app.use(viewSessionData);
 }
 
 const landingRoutes = require("./routes/landing");

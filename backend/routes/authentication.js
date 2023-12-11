@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 
-const Users  = require("../db");
+const Users = require("../db/users");
 
-
+const SALT_ROUNDS = 10;
 
 router.get("/", (_request, response) => {
     response.render("sign_up");
@@ -16,7 +16,7 @@ router.post("/sign_up", async (request, response) => {
 
     // First check if they exist and redirect to sign up
     const user_exists = await Users.email_exists(email);
-    if(user_exists) {
+    if (user_exists) {
         response.redirect("/");
         return;
     }
@@ -25,15 +25,13 @@ router.post("/sign_up", async (request, response) => {
     const hash = await bcrypt.hash(password, salt);
 
     // Store in the DB
-    const { id } = Users.create(email, hash);
+    const { id, email: userEmail } = await Users.create(email, hash);
 
-
-    // Todo : store seesion
+    request.session.user = { id, email: userEmail}
 
     // Redirect lobby
     response.redirect("/lobby");
 
-    
 })
 
 router.post("/sign_in", async (request, response) => {
@@ -44,18 +42,30 @@ router.post("/sign_in", async (request, response) => {
         const user = await Users.find_by_email(email);
         const isValidUser = await bcrypt.compare(password, user.password);
 
-        if(isValidUser) {
-            // TODO: Store in session 
+        if (isValidUser) {
+            request.session.user = {
+                id: user.id,
+                email
+            }
+
+            console.log( { user, session: request.session});
+
             response.redirect("/lobby");
             return;
-        }else {
-            response.render("landing", { error: "The credentials you supplied are invalid!"});
+        } else {
+            response.render("landing", { error: "The credentials you supplied are invalid!" });
         }
     } catch (error) {
         console.log(error);
-        response.render("landing", { error: "THe credentials you supplied are invalid!"});
+        response.render("landing", { error: "THe credentials you supplied are invalid!" });
     }
-    
+
+});
+
+router.get("/logout", (request, response) => {
+    request.session.destroy();
+
+    response.redirect("/");
 })
 
 module.exports = router;
