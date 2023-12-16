@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/:id", (_request, response) => {
-    const { id } = request.params;
-    response.render("game", { id });
+router.get("/", (req, res) => {
+    const user = req.session.user;
+
+    res.render("game", { user } );
 });
+
+
 
 module.exports = router;

@@ -234,7 +234,7 @@ input[type=reset] {
 /* body background-image 
   --------------------------- */
 body {
-    background-image: url("/images/chess-pic.jpg");
+    background-image: url("/img/chess-pic.jpg");
     background-color: #cccccc;
     /* Used if the image is unavailable */
     height: max-content;
@@ -305,14 +305,23 @@ form {
     width: 200px;
     text-align: center;
     display: inline-block;
-    
+
 }
 
 
 .form-center {
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     height: 50vh;
     /* Adjust if necessary */
+}
+
+#chessBoardContainer {
+    width: 400px;
+    /* Set your desired width */
+    height: 400px;
+    /* Set your desired height */
+    margin: 0 auto;
+    /* Center the board horizontally */
 }

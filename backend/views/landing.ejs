@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/home.css">
-    <link rel="icon" href="backend\favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="C:\Users\ctrc\Downloads\team-term-project-nocoding\backend\favicon.ico" type="image/x-icon" />
+
     <title>Chess</title>
 </head>
 
@@ -30,13 +31,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/lobby">
-                        <span>Lobby</span>
-                        <i class="fas fa-users" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/games">
+                    <a href="/auth">
                         <span>Play</span>
                         <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
                     </a>
@@ -44,19 +39,29 @@
             </ul>
         </nav>
     </div>
-    <div class="form-center">
-        <main>
-            <form method="post" action="/auth/sign_in">
-                <label class="label" for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="Email">
-                </label>
-                <label class="label" for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Password">
-                </label>
-                <button type="submit">Login</button>
-            </form>
-        </main>
-    </div>
+    <% if (typeof error !=='undefined' && error !==null) { %>
+        <script>
+            window.onload = function () {
+                alert('<%= error %>');
+            };
+        </script>
+        <% } %>
+            <div class="form-center">
+                <main>
+                    <form method="post" action="/auth/sign_in">
+                        <label class="label" for="email">Email</label>
+                        <input type="email" name="email" id="email" placeholder="Email">
+                        </label>
+                        <label class="label" for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="Password">
+                        </label>
+                        <button type="submit">Login</button>
+                    </form>
+                    <div id="error-message" class="error-message"></div>
+                </main>
+            </div>
+
+
 
 </body>
 

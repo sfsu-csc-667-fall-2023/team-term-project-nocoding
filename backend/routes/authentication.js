@@ -7,7 +7,11 @@ const Users = require("../db/users");
 const SALT_ROUNDS = 10;
 
 router.get("/", (_request, response) => {
-    response.render("sign_up");
+    response.render("landing");
+});
+
+router.get("/global_lobby", (_request, response) => {
+    response.render("game");
 });
 
 router.post("/sign_up", async (request, response) => {
@@ -27,15 +31,15 @@ router.post("/sign_up", async (request, response) => {
     // Store in the DB
     const { id, email: userEmail } = await Users.create(email, hash);
 
-    request.session.user = { id, email: userEmail}
+    request.session.user = { id, email: userEmail }
+    
 
     // Redirect lobby
-    response.redirect("/lobby");
-
+    response.redirect("/");
+    console.log("Session user:", request.session.user);
 })
 
 router.post("/sign_in", async (request, response) => {
-    // Given data, add user to Users table; redirect to global lobby
     const { email, password } = request.body;
 
     try {
@@ -46,26 +50,76 @@ router.post("/sign_in", async (request, response) => {
             request.session.user = {
                 id: user.id,
                 email
-            }
+            };
 
-            console.log( { user, session: request.session});
+            console.log("User logged in:", request.session.user);
 
             response.redirect("/lobby");
             return;
         } else {
-            response.render("landing", { error: "The credentials you supplied are invalid!" });
+            response.render("landing", { error: "The credentials you supplied are invalid!", loginFailed: true });
         }
     } catch (error) {
-        console.log(error);
-        response.render("landing", { error: "THe credentials you supplied are invalid!" });
+        console.error("Error during sign in:", error);
+        response.render("landing", { error: "The credentials you supplied are invalid!", loginFailed: true });
     }
+    console.log("Session after login:", request.session);
+    console.log("Session user:", request.session.user);
 
 });
 
 router.get("/logout", (request, response) => {
-    request.session.destroy();
+    console.log("Logging out user:", request.session.user);
 
-    response.redirect("/");
-})
+
+    if (request.session && request.session.user) {
+        request.session.destroy((error) => {
+            if (error) {
+                console.error("Error destroying session:", error);
+            } else {
+                console.log("User session after logout:", request.session); // Log session data
+                response.clearCookie("connect.sid", { path: '/' }); // Specify the correct cookie name and path
+                response.redirect("/");
+            }
+        });
+    } else {
+        response.redirect("/");
+    }
+    console.log("Session before logout:", request.session);
+});
+
+module.exports = router;
+
+
+router.get("/logout", (request, response) => {
+    console.log("Logging out user:", request.session.user);
+
+    if (request.session && request.session.user) {
+        // Destroy the session
+        request.session.destroy((error) => {
+            if (error) {
+                console.error("Error destroying session:", error);
+            } else {
+                // Clear the session cookie
+                response.clearCookie("connect.sid");
+                // OR
+                // response.clearCookie("your-session-cookie-name");
+
+                console.log("User session after logout:", request.session); // Log session data
+                response.redirect("/");
+            }
+        });
+    } else {
+        // If request.session.user is not defined, proceed with redirection
+        response.redirect("/");
+    }
+});
+
+
+
+
+
+
+
 
 module.exports = router;
