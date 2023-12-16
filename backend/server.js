@@ -10,26 +10,20 @@ const session = require("express-session");
 
 const { Server } = require("socket.io");
 
-
 const { viewSessionData, sessionLocals, isAuthenticated } = require("./middleware/");
 const PORT = process.env.PORT || 3000;
-
 
 const app = express();
 const httpServer = createServer(app);
 
-
 app.use(morgan("dev"));
-app.use(express.json());  // Use built-in middleware
-app.use(express.urlencoded({ extended: true }));  // Use built-in middleware
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "backend")));
 app.use(express.static(path.join(__dirname, "static")));
-
-
 
 const sessionMiddleware = session({
   store: new (require('connect-pg-simple')(session))({
@@ -42,12 +36,6 @@ const sessionMiddleware = session({
     secure: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "development",
     sameSite: "None",
   },
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  next(err);
 });
 
 app.use(sessionMiddleware);
@@ -67,33 +55,33 @@ if (process.env.NODE_ENV === "development") {
   app.use(connectLiveReload());
 }
 
-
 app.use((req, res, next) => {
   console.log("Session data:", req.session);
   next();
 });
 
-
-
 const io = new Server(httpServer);
 io.engine.use(sessionMiddleware);
 
+// Include and use the exported function from socket.js
+const socketLogic = require('../socket');
+socketLogic(io);
+
 io.on("connection", socket => {
   socket.join(socket.request.session.id);
-})
+});
 
-require('./socketServer')(io);
 const Routes = require("./routes");
-
 
 app.use("/", Routes.landing);
 app.use("/auth", Routes.authentication);
+app.use("/sign_up", Routes.authentication);
 app.use("/lobby", isAuthenticated, Routes.lobby);
 app.use("/game", isAuthenticated, Routes.game);
 app.use("/chat", isAuthenticated, Routes.chat);
 
 app.use((_request, _response, next) => {
-  console.log("Middleware: ", _request.originalUrl); // Log the current route
+  console.log("Middleware: ", _request.originalUrl);
   next(createError(404));
 });
 

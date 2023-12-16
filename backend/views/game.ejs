@@ -9,27 +9,6 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="icon" href="C:\Users\ctrc\Downloads\team-term-project-nocoding\backend\favicon.ico"
         type="image/x-icon" />
-    <link rel="stylesheet" href="/css/chessboard-1.0.0.min.css" />
-
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <!-- Include Socket.io -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
-
-    <!-- Include Chess.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-
-    <!-- Include Chessboard.js -->
-    <script src="/js/chessboard-1.0.0.min.js"></script>
-
-    
-
-    <!-- Include your socketClient.js -->
-    <script src="/js/socketClient.js"></script>
-
-    <!-- Include your chess.js -->
-    <script src="/js/chess.js"></script>
 
     <link rel="stylesheet" href="/css/home.css">
     <script src="/js/chat.js" defer></script>
@@ -67,70 +46,21 @@
         </div>
     </nav>
 
+    <script src="/js/utility.js?v3"></script>
+    <script src="/js/UI.js?v3"></script>
+    <script src="/js/config.js?v2"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/checker.js?v2"></script>
+    <script src="/js/theGame.js"></script>
+    <script src="/js/PlayOnline.js"></script>
 
-
-    <!-- Include the Chessboard script and initialize it with the container ID -->
-    
-    <!-- Chessboard container -->
-    <div id="chessBoardContainer"></div>
     <script>
-        // Make sure to use the correct ID here
-        var board = Chessboard('chessBoardContainer', {
-            draggable: true,
-            dropOffBoard: 'trash',
-            pieceTheme: '/img/chesspieces/wikipedia/{piece}.png', // Path to piece images
-            onDragStart: onDragStart,
-            onDrop: onDrop,
-            // ... other configurations
-        });
+        // Initialize the Socket.IO connection
+        var socket = io();
 
-        // Chess.js game object
-        var game = new Chess();
-
-        // Drag start logic
-        function onDragStart(source, piece, position, orientation) {
-            // Add custom logic for drag start if needed
-            return game.in_checkmate() === false && game.in_draw() === false &&
-                piece.search(/^b/) === -1;
-        }
-
-        // Drop logic
-        function onDrop(source, target) {
-            var move = game.ugly_move({
-                from: source,
-                to: target,
-                promotion: 'q' // NOTE: always promote to a queen for example simplicity
-            });
-
-            // Update the position of the pieces on the board
-            board.position(game.fen());
-
-            // Add any additional logic you need here
-
-            // Make the best move (you can replace this with your logic)
-            makeBestMove();
-        }
-
-        // Add more chess.js logic as needed
-
-        // Function to make the best move (replace with your logic)
-        function makeBestMove() {
-            // Add your move generation and AI logic here
-            // For simplicity, it just makes a random move in this example
-            var bestMove = getBestMove();
-            game.ugly_move(bestMove);
-            board.position(game.fen());
-        }
-
-        // Function to get a random move (replace with your logic)
-        function getBestMove() {
-            var moves = game.legal_moves();
-            var randomIndex = Math.floor(Math.random() * moves.length);
-            return moves[randomIndex];
-        }
+        // Initialize your chess game with the Socket.IO connection
+        CHESSAPP.GamePlay.init(gameSettings, socket);
     </script>
-
-
 </body>
 
 </html>

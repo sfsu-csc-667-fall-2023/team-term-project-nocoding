@@ -6,9 +6,11 @@ const Users = require("../db/users");
 
 const SALT_ROUNDS = 10;
 
-router.get("/", (_request, response) => {
-    response.render("landing");
+router.get("/sign_up", (_request, response) => {
+    response.render("sign_up");
 });
+
+
 
 router.get("/global_lobby", (_request, response) => {
     response.render("game");
@@ -32,11 +34,10 @@ router.post("/sign_up", async (request, response) => {
     const { id, email: userEmail } = await Users.create(email, hash);
 
     request.session.user = { id, email: userEmail }
-    
 
     // Redirect lobby
-    response.redirect("/");
-    console.log("Session user:", request.session.user);
+    response.redirect("/lobby");
+
 })
 
 router.post("/sign_in", async (request, response) => {
